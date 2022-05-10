@@ -35,6 +35,8 @@ class RichAlignment:
         max_name_width: int = 10,
         padding: PaddingDimensions = (1, 2)
     ):
+        if max_name_width <= 0:
+            raise ValueError("`max_name_width` must be strictly positive")
         self.names = names
         self.sequences = sequences
         self.sequence_length = len(self.sequences[0]) if self.sequences else 0
@@ -60,9 +62,9 @@ class RichAlignment:
         for block_pos in range(0, self.sequence_length, block_length):
 
             table = Table.grid(
-                padding=(0, self.padding[1], 0, self.padding[3]), pad_edge=False
+                padding=(0, self.padding[1], 0, self.padding[3])
             )
-            table.add_column(max_width=name_width, no_wrap=True, overflow="ellipsis")
+            table.add_column(width=name_width, no_wrap=True, overflow="ellipsis")
             table.add_column(width=length_width, justify="right")
             table.add_column(no_wrap=True)
 
@@ -74,8 +76,9 @@ class RichAlignment:
                     (letter, self._STYLES[letter])
                     for letter in characters[block_pos : block_pos + block_length]
                 ]
+                cell_name = name[:name_width-1] + "…" if len(name) > self.max_name_width else name
                 table.add_row(
-                    name,
+                    cell_name,
                     Styled(str(offset), rich.style.Style(bold=True, color="cyan")),
                     Text.assemble(*letters),
                 )
