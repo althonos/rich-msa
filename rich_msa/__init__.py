@@ -11,10 +11,16 @@ from rich.text import Text
 from rich.console import Console, ConsoleOptions, RenderResult
 
 
+__version__ = "0.1.0"
+__author__ = "Martin Larralde <martin.larralde@embl.de>"
+__license__ = "MIT"
+
+
 @rich.repr.auto
 class RichAlignment:
     """A `rich` renderable object to display a multiple sequence alignment."""
 
+    _DEFAULT = Style(color="gray30", bold=True)
     _STYLES = {
         l: Style(color=c, bold=True)
         for ls, c in [
@@ -22,7 +28,6 @@ class RichAlignment:
             ("DE", "blue"),
             ("RK", "purple"),
             ("STYHCNGQ", "green"),
-            ("-*", "gray30"),
         ]
         for l in ls
     }
@@ -36,22 +41,43 @@ class RichAlignment:
         max_name_width: int = 10,
         padding: PaddingDimensions = (1, 2, 1, 2)
     ):
+        """Create a new `RichAlignment` object.
+
+        Arguments:
+            names (`list` of `str`): A list of sequence names to show.
+            sequences (`list` of `str`): A list of aligned sequences to show.
+
+        Keyword Arguments:
+            gap_character (`str`): The character to treat as a gap in the
+                alignment, used for counting the offset in the coordinates
+                column.
+            max_name_width (`int`): The maximum number of characters to
+                display in the sequence name column.
+            padding (`rich.padding.PaddingDimensions`): The padding for the
+                sequence blocks. Vertical padding will be used between
+                blocks, and horizontal padding will be used between columns.
+
+        """
+        if len(names) != len(sequences):
+            raise ValueError("`names` and `sequences` must have the same length")
         if max_name_width <= 0:
             raise ValueError("`max_name_width` must be strictly positive")
+        if sequences and not all(len(seq) == len(sequences[0]) for seq in sequences):
+            raise ValueError("All strings in `sequences` must have the same length")
         self.names = names
         self.sequences = sequences
-        self.sequence_length = len(self.sequences[0]) if self.sequences else 0
+        self.sequence_length = len(self.sequences[0]) if sequences else 0
         self.gap_character = gap_character
         self.max_name_width = max_name_width
         self.padding = Padding.unpack(padding)
         self.styles = self._STYLES.copy()
+        self.default_style = self._DEFAULT
 
     def __rich_console__(
         self,
         console: Console,
         options: ConsoleOptions,
     ) -> RenderResult:
-        print(options)
         # compute width of the columns so that we know how to wrap the sequences
         length_width = len(str(self.sequence_length))
         name_width = min(self.max_name_width, max(map(len, self.names)))
@@ -78,7 +104,7 @@ class RichAlignment:
                     block_pos - characters[:block_pos].count(self.gap_character) + 1
                 )
                 letters = [
-                    (letter, self.styles[letter])
+                    (letter, self.styles.get(letter, self.default_style))
                     for letter in characters[block_pos : block_pos + block_length]
                 ]
                 cell_name = name[:name_width-1] + "…" if len(name) > self.max_name_width else name
