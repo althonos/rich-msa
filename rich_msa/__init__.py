@@ -1,6 +1,6 @@
 import sys
 import os
-import typing
+from typing import Dict, List, Optional
 
 import rich
 from rich.padding import Padding, PaddingDimensions
@@ -34,12 +34,14 @@ class RichAlignment:
 
     def __init__(
         self,
-        names: typing.List[str],
-        sequences: typing.List[str],
+        names: List[str],
+        sequences: List[str],
         *,
         gap_character: str = "-",
         max_name_width: int = 10,
-        padding: PaddingDimensions = (1, 2, 1, 2)
+        padding: PaddingDimensions = (1, 2, 1, 2),
+        styles: Optional[Dict[str, Style]] = None,
+        default_style: Optional[Style] = None,
     ) -> None:
         """Create a new `RichAlignment` object.
 
@@ -56,6 +58,11 @@ class RichAlignment:
             padding (`rich.padding.PaddingDimensions`): The padding for the
                 sequence blocks. Vertical padding will be used between
                 blocks, and horizontal padding will be used between columns.
+            styles (`dict` of `rich.style.Style`): A dictionary mapping
+                individual sequence characters to the style they should be
+                rendered with.
+            default_style (`rich.style.Style`): The default style to use
+                for unknown characters.
 
         """
         if len(names) != len(sequences):
@@ -70,8 +77,8 @@ class RichAlignment:
         self.gap_character = gap_character
         self.max_name_width = max_name_width
         self.padding = Padding.unpack(padding)
-        self.styles = self._STYLES.copy()
-        self.default_style = self._DEFAULT
+        self.styles = self._STYLES.copy() if styles is None else styles
+        self.default_style = self._DEFAULT if default_style is None else default_style
 
     def __rich_console__(
         self,

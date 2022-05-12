@@ -50,7 +50,7 @@ def main(argv: typing.Optional[typing.List[str]] = None, console: rich.console.C
     console = console if console is not None else Console()
     try:
         # load MSA using Biopython
-        msa = Bio.AlignIO.read(args.input)
+        msa = Bio.AlignIO.read(args.input, args.format)
         viewer = RichAlignment(
             names=[record.id for record in msa],
             sequences=[str(record.seq) for record in msa],
