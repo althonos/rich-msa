@@ -1,0 +1,10 @@
+# build dependencies
+setuptools
+
+# coverage dependencies
+coverage
+codecov
+
+# deployment dependencies
+wheel
+auditwheel
