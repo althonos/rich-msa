@@ -9,9 +9,10 @@ terminal:
 
 ```python
 import Bio.AlignIO
+import rich
 from rich_msa import RichAlignment
 
-msa = Bio.AlignIO.read("tests/data/swissprot-halorhodopsin.muscle.afa" "fasta")
+msa = Bio.AlignIO.read("tests/data/swissprot-halorhodopsin.muscle.afa", "fasta")
 viewer = RichAlignment(
     names=[record.id for record in msa],
     sequences=[str(record.seq) for record in msa],
