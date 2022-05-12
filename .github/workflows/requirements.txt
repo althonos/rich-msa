@@ -1,6 +1,10 @@
 # build dependencies
 setuptools
 
+# test dependencies
+rich
+biopython
+
 # coverage dependencies
 coverage
 codecov
