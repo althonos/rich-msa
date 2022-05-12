@@ -40,7 +40,7 @@ class RichAlignment:
         gap_character: str = "-",
         max_name_width: int = 10,
         padding: PaddingDimensions = (1, 2, 1, 2)
-    ):
+    ) -> None:
         """Create a new `RichAlignment` object.
 
         Arguments:
@@ -88,12 +88,13 @@ class RichAlignment:
                 options.max_width - name_width - length_width - self.padding[1] * 3
             )
         # create a grid to store the different blocks of wrapped sequences
-        grid = Table.grid(padding=(self.padding[0], 0, self.padding[2], 0))
-        grid.add_column(no_wrap=True)
+        grid = Table.grid(padding=(self.padding[0], 0, self.padding[2], 0), pad_edge=False)
+        grid.add_column(width=options.max_width, no_wrap=True)
         for block_pos in range(0, self.sequence_length, block_length):
             # create the grid with the current sequence block
             table = Table.grid(
                 padding=(0, self.padding[1], 0, self.padding[3]),
+                pad_edge=False,
             )
             table.add_column(width=name_width, no_wrap=True, overflow="ellipsis")
             table.add_column(width=length_width, no_wrap=True, justify="right")
