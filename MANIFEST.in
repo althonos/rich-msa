@@ -1,0 +1,6 @@
+include           README.md
+include           CHANGELOG.md
+include           COPYING
+include           pyproject.toml
+include           rich_msa/py.typed
+prune             tests
