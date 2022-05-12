@@ -2,8 +2,8 @@
 
 *A simple module to render colorful Multiple Sequence Alignment with `rich` in the terminal.*
 
-<!-- [![Actions](https://img.shields.io/github/workflow/status/althonos/rich-msa/Test/main?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/rich-msa/actions) -->
-<!-- [![Coverage](https://img.shields.io/codecov/c/gh/althonos/rich-msa?style=flat-square&maxAge=3600)](https://codecov.io/gh/althonos/rich-msa/) -->
+[![Actions](https://img.shields.io/github/workflow/status/althonos/rich-msa/Test/main?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/rich-msa/actions)
+[![Coverage](https://img.shields.io/codecov/c/gh/althonos/rich-msa?style=flat-square&maxAge=3600)](https://codecov.io/gh/althonos/rich-msa/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square&maxAge=2678400)](https://choosealicense.com/licenses/mit/)
 [![PyPI](https://img.shields.io/pypi/v/rich-msa.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/rich-msa)
 [![Wheel](https://img.shields.io/pypi/wheel/rich-msa.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/rich-msa/#files)
