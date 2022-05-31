@@ -20,7 +20,7 @@ __license__ = "MIT"
 class RichAlignment:
     """A `rich` renderable object to display a multiple sequence alignment."""
 
-    _DEFAULT = Style(color="gray30", bold=True)
+    _DEFAULT = Style(color="white", bold=True)
     _STYLES = {
         l: Style(color=c, bold=True)
         for ls, c in [
